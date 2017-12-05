@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow, render } from 'enzyme'
+import { shallow } from 'enzyme'
 import Calendar from  '../../component/Calendar'
 
 describe('component <Calendar />', () => {
