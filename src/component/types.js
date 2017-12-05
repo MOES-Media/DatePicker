@@ -1,8 +1,11 @@
 //@flow
 export type DatePickerProps = {
-    isCalendarVisible: boolean,
     placeholder?: string,
     disabled?: boolean,
+}
+
+export type DatePickerState = {
+    isCalendarVisible: boolean,
 }
 
 export type InputProps = {
@@ -14,4 +17,8 @@ export type InputProps = {
 export type InputState = {
     focus: boolean,
     value?: string,
+}
+
+export type CalendarProps = {
+    visible: boolean,
 }
