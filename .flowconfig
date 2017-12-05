@@ -1,0 +1,15 @@
+[ignore]
+.*/node_modules/.*src
+.*/node_modules/styled-components/*
+.*/node_modules/polished/
+.*/src/__test__/.*
+
+[include]
+
+[libs]
+
+[options]
+module.system.node.resolve_dirname=src
+module.system.node.resolve_dirname=node_modules
+
+[lints]
