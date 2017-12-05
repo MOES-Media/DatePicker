@@ -2,10 +2,13 @@
 import React, { Component } from 'react';
 import DatePicker from 'component'
 
-class App extends Component {
+class App extends Component<*> {
   render() {
     return (
-      <DatePicker />
+        <div style={{margin: '48px'}}>
+          <DatePicker placeholder="Datepicker"/>
+          <DatePicker placeholder="Datepicker => Disabled" disabled/>
+        </div>
     );
   }
 }
