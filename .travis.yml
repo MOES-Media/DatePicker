@@ -16,9 +16,10 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 install:
-  yarn build
+  yarn
 
 script:
   - yarn lint
   - yarn flow
   - yarn test
+  - yarn build
