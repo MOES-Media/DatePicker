@@ -16,15 +16,19 @@
     "build": "NODE_PATH=./src react-scripts build",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js --coverage",
     "eject": "NODE_PATH=./src react-scripts eject",
-    "lint": "eslint --config node_modules/eslint-config-react-app/index.js src"
+    "lint": "eslint --config node_modules/eslint-config-react-app/index.js src",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
+    "coveralls": "^3.0.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "flow-bin": "^0.60.1",
     "jest-enzyme": "^4.0.1"
   },
-  "eslintIgnore" : ["src/__test__/"]
+  "eslintIgnore": [
+    "src/__test__/"
+  ]
 }
