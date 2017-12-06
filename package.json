@@ -2,6 +2,7 @@
   "name": "datepicker",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://MOES-Media.github.io/DatePicker/",
   "dependencies": {
     "ionicons": "^3.0.0",
     "react": "^16.2.0",
@@ -24,5 +25,6 @@
     "enzyme-adapter-react-16": "^1.1.0",
     "flow-bin": "^0.60.1",
     "jest-enzyme": "^4.0.1"
-  }
+  },
+  "eslintIgnore" : ["src/__test__/"]
 }
