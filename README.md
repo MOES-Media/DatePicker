@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/MOES-Media/DatePicker.svg?branch=master)](https://travis-ci.org/MOES-Media/DatePicker)
+[![Coverage Status](https://coveralls.io/repos/github/MOES-Media/DatePicker/badge.svg?branch=master)](https://coveralls.io/github/MOES-Media/DatePicker?branch=master)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
