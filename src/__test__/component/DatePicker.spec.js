@@ -17,9 +17,12 @@ describe('component <DatePicker />', () => {
         expect(renderedComponent.state().isCalendarVisible).toBe(true)
     })
 
-    it('should set the calendar\s visibility to false onClickOutside', () =>{
-        const datePicker = new DatePicker()
+    it('should set the calendar\'s visibility to false onclickoutside', () => {
+        const datePicker = new DatePicker({})
+        datePicker.state.isCalendarVisible = true
+        spyOn(datePicker, 'setState')
         datePicker.handleClickOutside()
-        expect(datePicker.state.isCalendarVisible).toBe(false)
+        expect(datePicker.setState).toHaveBeenCalledWith({isCalendarVisible: false})
     })
+
 })

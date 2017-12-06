@@ -12,11 +12,14 @@ describe('component <Input />', () => {
     })
 
     it('should set the focus state accordingly', () => {
-        const renderedComponent = renderComponent({value: 'test'})
+        const mockFunctions = {onBlur: () => ({})}
+        spyOn(mockFunctions, 'onBlur')
+        const renderedComponent = renderComponent({value: 'test', onBlur: mockFunctions.onBlur})
         renderedComponent.simulate('focus')
         expect(renderedComponent.state().focus).toBe(true)
         renderedComponent.simulate('blur')
         expect(renderedComponent.state().focus).toBe(false)
+        expect(mockFunctions.onBlur).toHaveBeenCalled()
     })
 
     it('should handle onChange events', () => {
