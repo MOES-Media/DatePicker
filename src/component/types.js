@@ -12,6 +12,8 @@ export type InputProps = {
     value: string,
     placeholder?: string,
     disabled?: boolean,
+    onFocus?: Function,
+    onBlur?: Function,
 }
 
 export type InputState = {

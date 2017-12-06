@@ -40,10 +40,12 @@ export default class extends Component<InputProps, InputState>{
 
     _handleFocus(){
         !this.props.disabled && this.setState({focus: true})
+        this.props.onFocus && this.props.onFocus()
     }
 
     _handleBlur(){
         !this.props.disabled && this.setState({focus: false})
+        this.props.onBlur && this.props.onBlur()
     }
 
     _handleOnChange({target}: {target: HTMLInputElement}){
@@ -52,10 +54,10 @@ export default class extends Component<InputProps, InputState>{
 
     render(){
         return(<Input
+            {...this.props}
             onFocus={this._handleFocus.bind(this)}
             onBlur={this._handleBlur.bind(this)}
             onChange={this._handleOnChange.bind(this)}
-            {...this.props}
             {...this.state}/>)
     }
 }
