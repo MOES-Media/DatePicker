@@ -23,7 +23,7 @@ export const now = (utcOffSet: ?number|string) => {
 
 export const clone = (date: Moment) => (date.clone())
 
-export const parseDate = (value: Date, {dateFormat, locale}) => {
+export const parseDates = (value: Date, {dateFormat, locale}) => {
     const parsedDate = moment(value, dateFormat, locale || moment.locale(), true)
     return parsedDate.isValid() ? parsedDate : null
 }
@@ -102,7 +102,7 @@ export const isSameMonth = (date1: Moment, date2: Moment) => date1.isSame(date2,
 
 export const isSameDay = (date1: Moment, date2: Moment) => date1 && date2 ? date1.isSame(date2, 'day') : !date1 && !date2
 
-export const isSameUtcOffset = (date1: Moment, date2: Moment) => date1 && date2 ? date1.utcOffset === date2.utcOffset : !date1 && !date2
+export const isSameUtcOffset = (date1: Moment, date2: Moment) => date1 && date2 ? date1.utcOffset() === date2.utcOffset() : !date1 && !date2
 
 export const isDayInRange = (date: Moment, startDate: Moment, endDate: Moment) => {
     const before = startDate.clone().startOf('day').subtract(1, 'seconds')
@@ -130,8 +130,8 @@ export const getWeekDaysShortForLocale = (locale: Moment, date: Moment) => local
 
 export const getMonthForLocale = (locale: Moment, date: Moment) => locale.months(date)
 
-export const isDayDisabled = (day: Moment, { minDate, maxDate, excludeDates, includeDates, filterDate } = {}) => (minDate && isBefore(minDate, day)) ||
-(maxDate && isAfter(maxDate, day)) ||
+export const isDayDisabled = (day: Moment, { minDate, maxDate, excludeDates, includeDates, filterDate } = {}) => (minDate && day.isSameOrBefore(minDate)) ||
+(maxDate && day.isSameOrAfter(maxDate, 'day')) ||
 (excludeDates && excludeDates.some(excludeDate => isSameDay(excludeDate, day))) ||
 (includeDates && !includeDates.some(includeDate => isSameDay(includeDate, day))) ||
 (filterDate && !filterDate(clone(day))) ||
@@ -159,8 +159,8 @@ export const allDaysDisabledAfter = (day: Moment, unit: string, {maxDate, includ
     return (maxDate && dateAfter.isAfter(maxDate, unit)) || (includeDates && includeDates.every(includeDate => dateAfter.isAfter(includeDate, unit))) || false
 }
 
-export const getEffectiveMinDate = ({minDate, includeDates}) => (minDate && includeDates && moment.min(includeDates.filter(includeDate => minDate.isSameOrBefore(includeDate, 'day')))) ||
-(includeDates && moment.min(includeDates)) || minDate
+export const getEffectiveMinDate = ({minDate, includeDates}) => (minDate && includeDates && moment.min(includeDates.concat([minDate]))) ||
+(includeDates && moment.min(includeDates)) || minDate || null
 
-export const getEffectiveMaxDate = ({maxDate, includeDates}) => (maxDate && includeDates && moment.max(includeDates.filter(includeDate => maxDate.isSameOrAfter(includeDate, 'day')))) ||
-(includeDates && moment.max(includeDates)) || maxDate
+export const getEffectiveMaxDate = ({maxDate, includeDates}) => (maxDate && includeDates && moment.max(includeDates.concat([maxDate]))) ||
+(includeDates && moment.max(includeDates)) || maxDate || null
