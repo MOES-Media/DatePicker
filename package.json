@@ -5,6 +5,7 @@
   "homepage": "https://MOES-Media.github.io/DatePicker/",
   "dependencies": {
     "ionicons": "^3.0.0",
+    "moment": "^2.19.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-onclickoutside": "^6.7.0",
@@ -14,7 +15,8 @@
   "scripts": {
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
-    "test": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js --coverage",
+    "test": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js",
+    "test:coverage": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js --coverage",
     "eject": "NODE_PATH=./src react-scripts eject",
     "lint": "eslint --config node_modules/eslint-config-react-app/index.js src",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"

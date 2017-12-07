@@ -6,7 +6,7 @@ import onClickOutside from 'react-onclickoutside'
 import Input from 'component/Input'
 import Calendar from 'component/Calendar'
 
-const Wrapper = styled.div`position: relative;`
+const Wrapper = styled.div`position: relative; display:inline-block;`
 
 export class DatePicker extends Component<DatePickerProps, DatePickerState>{
 

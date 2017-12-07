@@ -21,7 +21,7 @@ install:
 script:
   - yarn lint
   - yarn flow
-  - yarn test
+  - yarn test:coverage
   - yarn build
 
 after_script:
