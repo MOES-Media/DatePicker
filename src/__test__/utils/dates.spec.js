@@ -248,8 +248,11 @@ describe('utils: dates', () => {
         })
 
         it('should return a parsed date when passing in a valid dateString', () => {
-            expect(dateUtils.setUtcOffSet(dateUtils.parseDates('06/12/2017', { dateFormat: 'DD/MM/YYYY' }), 0).toDate().getTime())
-                .toBe(dateUtils.setUtcOffSet(dateUtils.newDate('2017-12-06'), 0).toDate().getTime())
+            const parsedDate = dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY'})
+            const controlDate = dateUtils.newDate('2017-12-06')
+            expect(dateUtils.getDay(parsedDate)).toBe(dateUtils.getDay(controlDate))
+            expect(dateUtils.getMonth(parsedDate)).toBe(dateUtils.getMonth(controlDate))
+            expect(dateUtils.getYear(parsedDate)).toBe(dateUtils.getYear(controlDate))
         })
 
         it('should return null when passing a valid dateString that doesn\'t match the pattern and strict is true', () => {

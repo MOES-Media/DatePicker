@@ -58,6 +58,8 @@ export const getWeek = (date: Moment) => date.get('week')
 
 export const getMonth = (date: Moment) => date.get('month')
 
+export const getYear = (date: Moment) => date.get('year')
+
 export const getDayOfWeekCode = (date: Moment) => dayOfWeek[date.isoWeekday]
 
 export const getStartOfDay = (date: Moment) => date.startOf('day')
