@@ -243,16 +243,19 @@ describe('utils: dates', () => {
     })
 
     describe('parseDate', () => {
+
+        const compareDates = (parsedDate: Moment, controlDate: Moment) => {
+            expect(dateUtils.getDay(parsedDate)).toBe(dateUtils.getDay(controlDate))
+            expect(dateUtils.getMonth(parsedDate)).toBe(dateUtils.getMonth(controlDate))
+            expect(dateUtils.getYear(parsedDate)).toBe(dateUtils.getYear(controlDate))
+        }
+
         it('should return null when the datestring is invalid', () => {
             expect(dateUtils.parseDates('invalid', {dateFormat: 'DD/MM/YYYY'})).toBeNull()
         })
 
         it('should return a parsed date when passing in a valid dateString', () => {
-            const parsedDate = dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY'})
-            const controlDate = dateUtils.newDate('2017-12-06')
-            expect(dateUtils.getDay(parsedDate)).toBe(dateUtils.getDay(controlDate))
-            expect(dateUtils.getMonth(parsedDate)).toBe(dateUtils.getMonth(controlDate))
-            expect(dateUtils.getYear(parsedDate)).toBe(dateUtils.getYear(controlDate))
+            compareDates(dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY'}), dateUtils.newDate('2017-12-06'))
         })
 
         it('should return null when passing a valid dateString that doesn\'t match the pattern and strict is true', () => {
@@ -265,7 +268,7 @@ describe('utils: dates', () => {
         })
 
         it('should parse date when passing in locale', () => {
-            expect(dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY', locale: 'nl'}).toDate().getTime()).toBe(dateUtils.newDate("2017-12-05T23:00:00.000Z").toDate().getTime())
+            compareDates(dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY', locale: 'nl'}), dateUtils.newDate("2017-12-05T23:00:00.000Z"))
         })
     })
 
