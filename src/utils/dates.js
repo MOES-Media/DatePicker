@@ -23,8 +23,8 @@ export const now = (utcOffSet: ?number|string) => {
 
 export const clone = (date: Moment) => (date.clone())
 
-export const parseDates = (value: Date, {dateFormat, locale}) => {
-    const parsedDate = moment(value, dateFormat, locale || moment.locale(), true)
+export const parseDates = (value: string, {dateFormat, locale, strict}) => {
+    const parsedDate = moment(value, dateFormat, locale || moment.locale(), strict || false)
     return parsedDate.isValid() ? parsedDate : null
 }
 
@@ -74,6 +74,8 @@ export const getEndOfMonth = (date: Moment) => date.endOf('month')
 
 export const addMinutes = (date: Moment, amount: number) => date.add(amount, 'minutes')
 
+export const addHours = (date: Moment, amount: number) => date.add(amount, 'hours')
+
 export const addDays = (date: Moment, amount: number) => date.add(amount, 'days')
 
 export const addWeeks = (date: Moment, amount: number) => date.add(amount, 'weeks')
@@ -81,6 +83,8 @@ export const addWeeks = (date: Moment, amount: number) => date.add(amount, 'week
 export const addMonths = (date: Moment, amount: number) => date.add(amount, 'months')
 
 export const addYears = (date: Moment, amount: number) => date.add(amount, 'years')
+
+export const subtractHours = (date: Moment, amount: number) => date.subtract(amount, 'hours')
 
 export const subtractMinutes = (date: Moment, amount: number) => date.subtract(amount, 'minutes')
 
@@ -137,7 +141,7 @@ export const isDayDisabled = (day: Moment, { minDate, maxDate, excludeDates, inc
 (filterDate && !filterDate(clone(day))) ||
 false
 
-export const isTimeDisabled = (time: Moment, disabledTimes: Array<Moment>) => disabledTimes.map(disabledTime => (getHours(disabledTime) === getHours(time)) && (getMinutes(disabledTime) === getMinutes(time)))
+export const isTimeDisabled = (time: Moment, disabledTimes: Array<Moment>) => disabledTimes.filter(disabledTime => (getHours(disabledTime) === getHours(time)) && (getMinutes(disabledTime) === getMinutes(time))).length > 0
 
 export const isTimeInDisabledRange = (time: Moment, {minTime, maxTime}) => {
     if(!minTime || !maxTime) throw new Error('isTimeInDisabledRange: Both minTime and maxTime prop required')
@@ -146,7 +150,7 @@ export const isTimeInDisabledRange = (time: Moment, {minTime, maxTime}) => {
     const min = clone(base).hours(getHours(minTime)).minutes(getMinutes(minTime))
     const max = clone(base).hours(getHours(maxTime)).minutes(getMinutes(maxTime))
 
-    return !(baseTime.isSameOrAfter(min) && baseTime.isSameOrBefore(max))
+    return baseTime.isSameOrAfter(min) && baseTime.isSameOrBefore(max)
 }
 
 export const allDaysDisabledBefore = (day: Moment, unit: string, {minDate, includeDates} = {}) => {

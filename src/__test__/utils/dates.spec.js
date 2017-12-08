@@ -1,6 +1,25 @@
 import * as dateUtils from '../../utils/dates'
+import moment from 'moment'
 
 describe('utils: dates', () => {
+
+    describe('date constructors', () => {
+        it('should create a new date by default', () => {
+            const day = dateUtils.newDate()
+            expect(day.toString()).toBe(moment(day.toDate()).toString())
+        })
+
+        it('should create a new date from a string', () => {
+            const day = dateUtils.newDate('2017-12-26')
+            expect(day).not.toBeNull()
+            expect(day).not.toBe(dateUtils.now())
+        })
+
+        it('should create a date with utcOffset', () => {
+            const now = dateUtils.now(2)
+            expect(now.utcOffset()).toBe(120)
+        })
+    })
 
     describe('isSameDay', () => {
         it('should return true when passing 2 null values', () => {
@@ -214,7 +233,7 @@ describe('utils: dates', () => {
                 expect(dateUtils.getEffectiveMaxDate({maxDate, includeDates: [day2, day1]})).toBe(maxDate)
             })
 
-            it('should a date from the includedDates', () => {
+            it('should return a date from the includedDates', () => {
                 const day1 = dateUtils.now()
                 const day2 = dateUtils.addYears(dateUtils.clone(day1), 1)
                 const maxDate = dateUtils.addMonths(dateUtils.clone(day1), 1)
@@ -222,4 +241,92 @@ describe('utils: dates', () => {
             })
         })
     })
+
+    describe('parseDate', () => {
+        it('should return null when the datestring is invalid', () => {
+            expect(dateUtils.parseDates('invalid', {dateFormat: 'DD/MM/YYYY'})).toBeNull()
+        })
+
+        it('should return a parsed date when passing in a valid dateString', () => {
+            expect(dateUtils.parseDates('06/12/2017', { dateFormat: 'DD/MM/YYYY' }).toDate().getTime())
+                .toBe(dateUtils.newDate('2017-12-06').toDate().getTime())
+        })
+
+        it('should return null when passing a valid dateString that doesn\'t match the pattern and strict is true', () => {
+            expect(dateUtils.parseDates('06/12/2017T00:00:00', {dateFormat: 'DD/MM/YYYY', strict: true})).toBeNull()
+        })
+
+        it('should parse date when passing in unix timestamps', () => {
+            const now = new Date()
+            expect(dateUtils.parseDates(now.getTime(), {dateFormat: 'x'}).toDate().getTime()).toBe(now.getTime())
+        })
+
+        it('should parse date when passing in locale', () => {
+            expect(dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY', locale: 'nl'}).toDate().getTime()).toBe(dateUtils.newDate("2017-12-05T23:00:00.000Z").toDate().getTime())
+        })
+    })
+
+    describe('formatDate', () => {
+        it('should format a date to the correct format', () => {
+            expect(dateUtils.formatDate(dateUtils.newDate('2017-12-07'), 'DD/MM/YYYY')).toBe('07/12/2017')
+        })
+    })
+
+    describe('safeDateFormat', () => {
+        it('should format a date to the correct format, keeping the locale in mind', () => {
+            expect(dateUtils.safeDateFormat(dateUtils.newDate('2017-12-07'), {dateFormat: 'MM-DD-YYYY', locale: 'en'})).toBe('12-07-2017')
+        })
+    })
+
+    describe('isDayInRange', () => {
+        it('should return true if date is between start- and enddate', () => {
+            expect(dateUtils.isDayInRange(dateUtils.newDate('2017-12-07'), dateUtils.newDate('2017-12-01'), dateUtils.newDate('2017-12-31'))).toBe(true)
+        })
+
+        it('should return false if date is before startdate', () => {
+            expect(dateUtils.isDayInRange(dateUtils.newDate('2017-11-30'), dateUtils.newDate('2017-12-01'), dateUtils.newDate('2017-12-31'))).toBe(false)
+        })
+
+        it('should return false if date is after enddate', () => {
+            expect(dateUtils.isDayInRange(dateUtils.newDate('2018-01-01'), dateUtils.newDate('2017-12-01'), dateUtils.newDate('2017-12-31'))).toBe(false)
+        })
+    })
+
+    describe('isTimeInDisabledRange', () => {
+        it('should return true if time is between minTime and maxTime', () => {
+            const now = dateUtils.now()
+            const minTime = dateUtils.subtractHours(dateUtils.clone(now), 1)
+            const maxTime = dateUtils.addHours(dateUtils.clone(now), 1)
+            expect(dateUtils.isTimeInDisabledRange(now, {minTime, maxTime})).toBe(true)
+        })
+
+        it('should return false if time is before minTime', () => {
+            const now = dateUtils.now()
+            const minTime = dateUtils.subtractHours(dateUtils.clone(now), 1)
+            const maxTime = dateUtils.addHours(dateUtils.clone(now), 1)
+            expect(dateUtils.isTimeInDisabledRange(minTime, {minTime: now, maxTime})).toBe(false)
+        })
+
+        it('should return false if time is after maxTime', () => {
+            const now = dateUtils.now()
+            const minTime = dateUtils.subtractHours(dateUtils.clone(now), 1)
+            const maxTime = dateUtils.addHours(dateUtils.clone(now), 1)
+            expect(dateUtils.isTimeInDisabledRange(maxTime, {minTime, maxTime: now})).toBe(false)
+        })
+
+    })
+
+    describe('isTimeDisabled', () => {
+        it('should return false if time is not in disabled array', () => {
+            expect(dateUtils.isTimeDisabled(dateUtils.newDate(), [dateUtils.subtractHours(dateUtils.newDate(), 1), dateUtils.subtractMinutes(dateUtils.newDate(), 30)])).toBe(false)
+            expect(dateUtils.isTimeDisabled(dateUtils.newDate(), [dateUtils.addHours(dateUtils.newDate(), 1), dateUtils.addMinutes(dateUtils.newDate(),30)]))
+        })
+
+        it('should return true if time is in disabled array', () => {
+            const now = dateUtils.now()
+            expect(dateUtils.isTimeDisabled(now, [now, dateUtils.addMinutes(now, 20)])).toBe(true)
+            expect(dateUtils.isTimeDisabled(now, [dateUtils.addMonths(now, 2)])).toBe(true)
+        })
+    })
+
 })
