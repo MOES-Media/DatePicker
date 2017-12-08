@@ -128,117 +128,117 @@ describe('utils: dates', () => {
             dateUtils.isDayDisabled(day, {filterDate})
             expect(dateUtils.equals(day, dayClone))
         })
+    })
 
-        describe('allDaysDisabledBefore', () => {
-            it('should return false by default', () => {
-                const day = dateUtils.now()
-                expect(dateUtils.allDaysDisabledBefore(day, 'month')).toBe(false)
-            })
-
-            it('should return true if minDate is in same unit', () => {
-                const day = dateUtils.newDate('2017-12-10')
-                const dayInMonth = dateUtils.newDate('2017-12-01')
-                expect(dateUtils.allDaysDisabledBefore(day, 'month', {minDate: dayInMonth})).toBe(true)
-            })
-
-            it('should return false if minDate is not in the same unit', () => {
-                const day = dateUtils.newDate('2017-12-10')
-                const dayInPreviousMonth = dateUtils.newDate('2017-11-10')
-                expect(dateUtils.allDaysDisabledBefore(day, 'month', {minDate: dayInPreviousMonth})).toBe(false)
-            })
-
-            it('should return true if previous unit is before includedDates', () => {
-                const day = dateUtils.newDate('2017-12-10')
-                const includeDates = [dateUtils.newDate('2017-12-01')]
-                expect(dateUtils.allDaysDisabledBefore(day, 'month', {includeDates})).toBe(true)
-            })
+    describe('allDaysDisabledBefore', () => {
+        it('should return false by default', () => {
+            const day = dateUtils.now()
+            expect(dateUtils.allDaysDisabledBefore(day, 'month')).toBe(false)
         })
 
-        describe('allDaysDisabledAfter', () => {
-            it('should return false by default', () => {
-                const day = dateUtils.now()
-                expect(dateUtils.allDaysDisabledAfter(day, 'month')).toBe(false)
-            })
-
-            it('should return true if maxDate is in same unit', () => {
-                const day = dateUtils.newDate('2017-12-10')
-                const dayInMonth = dateUtils.newDate('2017-12-11')
-                expect(dateUtils.allDaysDisabledAfter(day, 'month', {maxDate: dayInMonth})).toBe(true)
-            })
-
-            it('should return false if maxDate is in the next unit', () => {
-                const day = dateUtils.newDate('2017-11-10')
-                const dayInNextMonth = dateUtils.newDate('2017-12-10')
-                expect(dateUtils.allDaysDisabledAfter(day, 'month', {maxDate: dayInNextMonth})).toBe(false)
-            })
-
-            it('should return true if next unit is after included dates', () => {
-                const day = dateUtils.newDate('2017-12-10')
-                const includeDates = [dateUtils.newDate('2017-12-11')]
-                expect(dateUtils.allDaysDisabledAfter(day, 'month', {includeDates})).toBe(true)
-            })
+        it('should return true if minDate is in same unit', () => {
+            const day = dateUtils.newDate('2017-12-10')
+            const dayInMonth = dateUtils.newDate('2017-12-01')
+            expect(dateUtils.allDaysDisabledBefore(day, 'month', {minDate: dayInMonth})).toBe(true)
         })
 
-        describe('getEffectiveMinDate', () => {
-            it('should return null by default', () => {
-                expect(dateUtils.getEffectiveMinDate({})).toBeNull()
-            })
-
-            it('should return the minDate', () => {
-                const minDate = dateUtils.newDate('2017-10-01')
-                expect(dateUtils.getEffectiveMinDate({minDate})).toBe(minDate)
-            })
-
-            it('should return the earliest included date', () => {
-                const day1 = dateUtils.newDate()
-                const day2 = dateUtils.subtractMonths(dateUtils.clone(day1), 1)
-                expect(dateUtils.getEffectiveMinDate({includeDates: [day1, day2]})).toBe(day2)
-            })
-
-            it('should return the minDate', () => {
-                const day1 = dateUtils.now()
-                const day2 = dateUtils.addMonths(dateUtils.clone(day1), 1)
-                const minDate = dateUtils.subtractYears(dateUtils.clone(day2), 1)
-                expect(dateUtils.getEffectiveMinDate({minDate, includeDates: [day2, day1]})).toBe(minDate)
-            })
-
-            it('should a date from the includedDates', () => {
-                const day1 = dateUtils.now()
-                const day2 = dateUtils.subtractYears(dateUtils.clone(day1), 1)
-                const minDate = dateUtils.addMonths(dateUtils.clone(day1), 1)
-                expect(dateUtils.getEffectiveMinDate({minDate, includeDates: [day2, day1]})).toBe(day2)
-            })
+        it('should return false if minDate is not in the same unit', () => {
+            const day = dateUtils.newDate('2017-12-10')
+            const dayInPreviousMonth = dateUtils.newDate('2017-11-10')
+            expect(dateUtils.allDaysDisabledBefore(day, 'month', {minDate: dayInPreviousMonth})).toBe(false)
         })
 
-        describe('getEffectiveMaxDate', () => {
-            it('should return null by default', () => {
-                expect(dateUtils.getEffectiveMaxDate({})).toBeNull()
-            })
+        it('should return true if previous unit is before includedDates', () => {
+            const day = dateUtils.newDate('2017-12-10')
+            const includeDates = [dateUtils.newDate('2017-12-01')]
+            expect(dateUtils.allDaysDisabledBefore(day, 'month', {includeDates})).toBe(true)
+        })
+    })
 
-            it('should return the maxDate', () => {
-                const maxDate = dateUtils.newDate()
-                expect(dateUtils.getEffectiveMaxDate({maxDate})).toBe(maxDate)
-            })
+    describe('allDaysDisabledAfter', () => {
+        it('should return false by default', () => {
+            const day = dateUtils.now()
+            expect(dateUtils.allDaysDisabledAfter(day, 'month')).toBe(false)
+        })
 
-            it('should return the latest included date', () => {
-                const day1 = dateUtils.now()
-                const day2 = dateUtils.addMonths(dateUtils.clone(day1), 1)
-                expect(dateUtils.getEffectiveMaxDate({includeDates: [day1, day2]})).toBe(day2)
-            })
+        it('should return true if maxDate is in same unit', () => {
+            const day = dateUtils.newDate('2017-12-10')
+            const dayInMonth = dateUtils.newDate('2017-12-11')
+            expect(dateUtils.allDaysDisabledAfter(day, 'month', {maxDate: dayInMonth})).toBe(true)
+        })
 
-            it('should return the maxDate', () => {
-                const day1 = dateUtils.now()
-                const day2 = dateUtils.addMonths(dateUtils.clone(day1), 1)
-                const maxDate = dateUtils.addYears(dateUtils.clone(day2), 1)
-                expect(dateUtils.getEffectiveMaxDate({maxDate, includeDates: [day2, day1]})).toBe(maxDate)
-            })
+        it('should return false if maxDate is in the next unit', () => {
+            const day = dateUtils.newDate('2017-11-10')
+            const dayInNextMonth = dateUtils.newDate('2017-12-10')
+            expect(dateUtils.allDaysDisabledAfter(day, 'month', {maxDate: dayInNextMonth})).toBe(false)
+        })
 
-            it('should return a date from the includedDates', () => {
-                const day1 = dateUtils.now()
-                const day2 = dateUtils.addYears(dateUtils.clone(day1), 1)
-                const maxDate = dateUtils.addMonths(dateUtils.clone(day1), 1)
-                expect(dateUtils.getEffectiveMaxDate({maxDate, includeDates: [day2, day1]})).toBe(day2)
-            })
+        it('should return true if next unit is after included dates', () => {
+            const day = dateUtils.newDate('2017-12-10')
+            const includeDates = [dateUtils.newDate('2017-12-11')]
+            expect(dateUtils.allDaysDisabledAfter(day, 'month', {includeDates})).toBe(true)
+        })
+    })
+
+    describe('getEffectiveMinDate', () => {
+        it('should return null by default', () => {
+            expect(dateUtils.getEffectiveMinDate({})).toBeNull()
+        })
+
+        it('should return the minDate', () => {
+            const minDate = dateUtils.newDate('2017-10-01')
+            expect(dateUtils.getEffectiveMinDate({minDate})).toBe(minDate)
+        })
+
+        it('should return the earliest included date', () => {
+            const day1 = dateUtils.newDate()
+            const day2 = dateUtils.subtractMonths(dateUtils.clone(day1), 1)
+            expect(dateUtils.getEffectiveMinDate({includeDates: [day1, day2]})).toBe(day2)
+        })
+
+        it('should return the minDate', () => {
+            const day1 = dateUtils.now()
+            const day2 = dateUtils.addMonths(dateUtils.clone(day1), 1)
+            const minDate = dateUtils.subtractYears(dateUtils.clone(day2), 1)
+            expect(dateUtils.getEffectiveMinDate({minDate, includeDates: [day2, day1]})).toBe(minDate)
+        })
+
+        it('should a date from the includedDates', () => {
+            const day1 = dateUtils.now()
+            const day2 = dateUtils.subtractYears(dateUtils.clone(day1), 1)
+            const minDate = dateUtils.addMonths(dateUtils.clone(day1), 1)
+            expect(dateUtils.getEffectiveMinDate({minDate, includeDates: [day2, day1]})).toBe(day2)
+        })
+    })
+
+    describe('getEffectiveMaxDate', () => {
+        it('should return null by default', () => {
+            expect(dateUtils.getEffectiveMaxDate({})).toBeNull()
+        })
+
+        it('should return the maxDate', () => {
+            const maxDate = dateUtils.newDate()
+            expect(dateUtils.getEffectiveMaxDate({maxDate})).toBe(maxDate)
+        })
+
+        it('should return the latest included date', () => {
+            const day1 = dateUtils.now()
+            const day2 = dateUtils.addMonths(dateUtils.clone(day1), 1)
+            expect(dateUtils.getEffectiveMaxDate({includeDates: [day1, day2]})).toBe(day2)
+        })
+
+        it('should return the maxDate', () => {
+            const day1 = dateUtils.now()
+            const day2 = dateUtils.addMonths(dateUtils.clone(day1), 1)
+            const maxDate = dateUtils.addYears(dateUtils.clone(day2), 1)
+            expect(dateUtils.getEffectiveMaxDate({maxDate, includeDates: [day2, day1]})).toBe(maxDate)
+        })
+
+        it('should return a date from the includedDates', () => {
+            const day1 = dateUtils.now()
+            const day2 = dateUtils.addYears(dateUtils.clone(day1), 1)
+            const maxDate = dateUtils.addMonths(dateUtils.clone(day1), 1)
+            expect(dateUtils.getEffectiveMaxDate({maxDate, includeDates: [day2, day1]})).toBe(day2)
         })
     })
 
@@ -268,7 +268,7 @@ describe('utils: dates', () => {
         })
 
         it('should parse date when passing in locale', () => {
-            compareDates(dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY', locale: 'nl'}), dateUtils.newDate("2017-12-05T23:00:00.000Z"))
+            compareDates(dateUtils.parseDates('06/12/2017', {dateFormat: 'DD/MM/YYYY', locale: 'nl'}), dateUtils.newDate('2017-12-06'))
         })
     })
 
@@ -334,5 +334,4 @@ describe('utils: dates', () => {
             expect(dateUtils.isTimeDisabled(now, [dateUtils.addMonths(now, 2)])).toBe(true)
         })
     })
-
 })
