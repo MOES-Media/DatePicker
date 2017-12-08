@@ -248,7 +248,7 @@ describe('utils: dates', () => {
         })
 
         it('should return a parsed date when passing in a valid dateString', () => {
-            expect(dateUtils.parseDates('06/12/2017', { dateFormat: 'DD/MM/YYYY' }).toDate().getTime())
+            expect(dateUtils.parseDates('06/12/2017T00:00:00', { dateFormat: 'DD/MM/YYYY' }).toDate().getTime())
                 .toBe(dateUtils.newDate('2017-12-06T00:00:00').toDate().getTime())
         })
 
