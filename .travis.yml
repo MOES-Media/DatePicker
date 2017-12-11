@@ -23,6 +23,7 @@ script:
   - yarn flow
   - yarn test:coverage
   - yarn build
+  - yarn run build-storybook
 
 after_script:
   - COVERALLS_REPO_TOKEN=$COVERALLS_TOKEN yarn coveralls
@@ -31,6 +32,6 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  local_dir: build
+  local_dir: storybook-static
   on:
     branch: master
