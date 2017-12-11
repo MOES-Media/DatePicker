@@ -16,7 +16,7 @@
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js",
-    "test:coverage": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js --coverage",
+    "test:coverage": "NODE_PATH=./src react-scripts test --env=jsdom --setupTestFrameworkScriptFile=./src/__test__/setup.js --coverage --collectCoverageFrom=src/**/*js --collectCoverageFrom=!src/stories/**/*.js --collectCoverageFrom=!src/index.js",
     "eject": "NODE_PATH=./src react-scripts eject",
     "lint": "eslint --config node_modules/eslint-config-react-app/index.js src",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
@@ -36,6 +36,7 @@
     "@storybook/addon-links": "^3.2.17"
   },
   "eslintIgnore": [
-    "src/__test__/"
+    "src/__test__/",
+    "src/stories/"
   ]
 }
